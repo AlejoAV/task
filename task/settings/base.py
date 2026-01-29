@@ -41,6 +41,7 @@ DJANGO_APPS = [
 
 DEPENDENCY_APPS = [
     'colorfield',
+    'rest_framework'
 ]
 
 USER_APPS = [

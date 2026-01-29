@@ -24,7 +24,7 @@ class TaskModel(BaseModel):
     name = models.CharField(_('name'), max_length=100, blank=False)
     description = models.TextField(_('description'), blank=True)
     status = models.CharField(_('status'), max_length=20, choices=StatusChoices.choices, default=StatusChoices.BLOCKED)
-    color = ColorField(_('color'), max_length=7, default='')
+    color = ColorField(_('color'), max_length=7, default='', blank=True)
 
     def __str__(self):
         return f'{self.name} ({self.get_status_display()})'
