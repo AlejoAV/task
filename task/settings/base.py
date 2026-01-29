@@ -39,7 +39,9 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-DEPENDENCY_APPS = []
+DEPENDENCY_APPS = [
+    'colorfield',
+]
 
 USER_APPS = [
     'taskapp.apps.TaskappConfig',
