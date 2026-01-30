@@ -1,6 +1,7 @@
 import random
 
 from colorfield.fields import ColorField
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -26,6 +27,7 @@ class TaskModel(BaseModel):
     category = models.ForeignKey('CategoryModel', on_delete=models.SET_NULL, blank=True, null=True)
     status = models.CharField(_('status'), max_length=20, choices=StatusChoices.choices, default=StatusChoices.BACKLOG)
     color = ColorField(_('color'), max_length=7, default='', blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return f'{self.name} ({self.get_status_display()})'

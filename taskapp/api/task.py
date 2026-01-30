@@ -2,6 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters as drf_filters
 from rest_framework.pagination import PageNumberPagination
 
+from core.view.api import BaseAPIResponse
 from taskapp.filters.task import TaskFilter
 from taskapp.models import TaskModel
 from taskapp.serializers.task import TaskSerializer
@@ -16,3 +17,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     search_fields = ['status__icontains',]
     ordering = '-id'
     pagination_class = TaskCategoryResults
+    renderer_classes = [BaseAPIResponse, ]
+
+    def get_queryset(self):
+        return TaskModel.objects.filter(user=self.request.user)

@@ -17,6 +17,7 @@ class TaskSerializer(serializers.ModelSerializer):
             iterations += 1
 
         validated_data['color'] = color
+        validated_data['user'] = self.context['request'].user
         return super(TaskSerializer, self).create(validated_data)
 
     class Meta:
