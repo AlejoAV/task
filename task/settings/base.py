@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3en9wsw@30j259h24ltc8y@=2g4xwrq79d&9pnkdeje*q03_*7'
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-3en9wsw@30j259h24ltc8y@=2g4xwrq79d&9pnkdeje*q03_*7')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') if os.getenv('ALLOWED_HOSTS') else []
 
 
 # Application definition
@@ -43,7 +45,7 @@ DEPENDENCY_APPS = [
     'colorfield',
     'rest_framework',
     'rest_framework.authtoken',
-    'django_filters',
+    'drf_spectacular',
 ]
 
 USER_APPS = [
@@ -140,7 +142,15 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-JWT_TOKEN = '12345'
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Task API',
+    'DESCRIPTION': 'API para gestión de tareas y categorías',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
+
+JWT_TOKEN = os.getenv('JWT_TOKEN', '12345')
