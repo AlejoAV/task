@@ -1,0 +1,566 @@
+{
+  "info": {
+    "_postman_id": "97e6752b-d9a6-4de1-a29d-0f2fbc1e5505",
+    "name": "task",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "10295371"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "var token = data.data.api_token;",
+              "if (token) {",
+              "    pm.environment.set(\"API_TOKEN\", token);",
+              "    console.log('Token guardado');",
+              "} else {",
+              "    console.warn('No se pudo guardar')",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "jwt",
+          "jwt": [
+            {
+              "key": "payload",
+              "value": "{\n\"username\": \"aaguilar\",\n\"password\": \"........\"\n}",
+              "type": "string"
+            },
+            {
+              "key": "isSecretBase64Encoded",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "key": "secret",
+              "value": "12345",
+              "type": "string"
+            },
+            {
+              "key": "algorithm",
+              "value": "HS256",
+              "type": "string"
+            },
+            {
+              "key": "addTokenTo",
+              "value": "header",
+              "type": "string"
+            },
+            {
+              "key": "headerPrefix",
+              "value": "Bearer",
+              "type": "string"
+            },
+            {
+              "key": "queryParamKey",
+              "value": "token",
+              "type": "string"
+            },
+            {
+              "key": "header",
+              "value": "{}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Token",
+            "value": "",
+            "type": "text",
+            "disabled": true
+          },
+          {
+            "key": "Authorization",
+            "value": "Token 2520b8f76f03651b8ca8b0437b44c4381225f269",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8200/api/login/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8200",
+          "path": [
+            "api",
+            "login",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Logout",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "if (data.code == 200) {",
+              "    pm.environment.set(\"API_TOKEN\", 'NA');",
+              "    console.log('se borra token');",
+              "} else {",
+              "    console.warn('No se pudo guardar')",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Token",
+            "value": "",
+            "type": "text",
+            "disabled": true
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{API_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8200/api/logout/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8200",
+          "path": [
+            "api",
+            "logout",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "task list",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{API_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{HOST}}:{{PORT}}/api/tasks/?status=todo",
+          "host": [
+            "{{HOST}}"
+          ],
+          "port": "{{PORT}}",
+          "path": [
+            "api",
+            "tasks",
+            ""
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "todo",
+              "description": "Este parametro filtra los resultados por status, si no se manda trae todo los datos"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "crear task",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{API_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Tarea {{$randomAlphaNumeric}}\",\n    \"description\": \"Una descripcion cualquiera\",\n    \"category\": \"1\" //Id de la categoría valor opciona se puede editar\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{HOST}}:{{PORT}}/api/tasks/",
+          "host": [
+            "{{HOST}}"
+          ],
+          "port": "{{PORT}}",
+          "path": [
+            "api",
+            "tasks",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "task by id",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{API_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{HOST}}:{{PORT}}/api/tasks/:id/",
+          "host": [
+            "{{HOST}}"
+          ],
+          "port": "{{PORT}}",
+          "path": [
+            "api",
+            "tasks",
+            ":id",
+            ""
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{TASK_ID}}",
+              "description": "id de la task que se quiere usar"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{API_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"status\": \"REVIEW\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{HOST}}:{{PORT}}/api/tasks/:id/",
+          "host": [
+            "{{HOST}}"
+          ],
+          "port": "{{PORT}}",
+          "path": [
+            "api",
+            "tasks",
+            ":id",
+            ""
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{TASK_ID}}",
+              "description": "id de la task que se quiere usar"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete task",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{API_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{HOST}}:{{PORT}}/api/tasks/:id/",
+          "host": [
+            "{{HOST}}"
+          ],
+          "port": "{{PORT}}",
+          "path": [
+            "api",
+            "tasks",
+            ":id",
+            ""
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{TASK_ID}}",
+              "description": "id de la task que se quiere usar"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "categories list",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{API_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{HOST}}:{{PORT}}/api/categories/",
+          "host": [
+            "{{HOST}}"
+          ],
+          "port": "{{PORT}}",
+          "path": [
+            "api",
+            "categories",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "created category",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var json_data = pm.response.json();",
+              "var task_id = json_data.data.id;",
+              "if (task_id) {",
+              "    pm.environment.set(\"CATEGORY_ID\", task_id);",
+              "    console.log('se guardar el task_id');",
+              "} else {",
+              "    console.warn('No se pudo guardar')",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{API_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Categoria {{$randomAlphaNumeric}}\",\n    \"description\": \"Una descripcion cualquiera\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{HOST}}:{{PORT}}/api/categories/",
+          "host": [
+            "{{HOST}}"
+          ],
+          "port": "{{PORT}}",
+          "path": [
+            "api",
+            "categories",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "category by id",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{API_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Tarea {{$randomAlphaNumeric}}\",\n    \"description\": \"Una descripcion cualquiera\",\n    \"category\": \"1\" //Id de la categoría valor opciona se puede editar\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{HOST}}:{{PORT}}/api/categories/:id/",
+          "host": [
+            "{{HOST}}"
+          ],
+          "port": "{{PORT}}",
+          "path": [
+            "api",
+            "categories",
+            ":id",
+            ""
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{CATEGORY_ID}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update category",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{API_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"description\": \"Otra descripcion aleatorioa {{$randomAlphaNumeric}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{HOST}}:{{PORT}}/api/categories/:id/",
+          "host": [
+            "{{HOST}}"
+          ],
+          "port": "{{PORT}}",
+          "path": [
+            "api",
+            "categories",
+            ":id",
+            ""
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{CATEGORY_ID}}",
+              "description": "id de la task que se quiere usar"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete category",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token {{API_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{HOST}}:{{PORT}}/api/categories/:id/",
+          "host": [
+            "{{HOST}}"
+          ],
+          "port": "{{PORT}}",
+          "path": [
+            "api",
+            "categories",
+            ":id",
+            ""
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{CATEGORY_ID}}",
+              "description": "id de la task que se quiere usar"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
