@@ -23,7 +23,8 @@ class StatusChoices(models.TextChoices):
 class TaskModel(BaseModel):
     name = models.CharField(_('name'), max_length=100, blank=False)
     description = models.TextField(_('description'), blank=True)
-    status = models.CharField(_('status'), max_length=20, choices=StatusChoices.choices, default=StatusChoices.BLOCKED)
+    category = models.ForeignKey('CategoryModel', on_delete=models.SET_NULL, blank=True, null=True)
+    status = models.CharField(_('status'), max_length=20, choices=StatusChoices.choices, default=StatusChoices.BACKLOG)
     color = ColorField(_('color'), max_length=7, default='', blank=True)
 
     def __str__(self):

@@ -7,4 +7,4 @@ from taskapp.models import TaskModel
 
 @admin.register(TaskModel)
 class TaskModelAdmin(admin.ModelAdmin):
-    pass
+    raw_id_fields = ('category',)

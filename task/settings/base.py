@@ -41,7 +41,8 @@ DJANGO_APPS = [
 
 DEPENDENCY_APPS = [
     'colorfield',
-    'rest_framework'
+    'rest_framework',
+    'django_filters',
 ]
 
 USER_APPS = [
